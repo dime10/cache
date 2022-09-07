@@ -34,7 +34,8 @@ async function run(): Promise<void> {
         if (noRestore) {
             const keys = [primaryKey];
             const cacheEntry = await cache.getCacheEntry(keys, cachePaths);
-            if (cacheEntry?.archiveLocation) {
+            if (cacheEntry?.archiveLocation) {        
+                core.info(`Cache entry found, skipping restore`);
                 utils.setCacheHitOutput(true);
                 return;
             }
