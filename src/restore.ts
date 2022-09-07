@@ -6,6 +6,7 @@ import * as utils from "./utils/actionUtils";
 
 async function run(): Promise<void> {
     try {
+        core.info(`Entering restore!`);
         if (!utils.isCacheFeatureAvailable()) {
             utils.setCacheHitOutput(false);
             return;
@@ -31,9 +32,11 @@ async function run(): Promise<void> {
         
         // Before restoring cache, check no-restore option
         const noRestore = core.getBooleanInput(Inputs.NoRestore, { required: false });
+        core.info(`No restore option: ${noRestore}`);
         if (noRestore) {
             const keys = [primaryKey];
             const cacheEntry = await cache.getCacheEntry(keys, cachePaths);
+            core.info(`Cache entry: ${cacheEntry}`);
             if (cacheEntry?.archiveLocation) {        
                 core.info(`Cache entry found, skipping restore`);
                 utils.setCacheHitOutput(true);
