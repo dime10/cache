@@ -28,6 +28,17 @@ async function run(): Promise<void> {
         const cachePaths = utils.getInputAsArray(Inputs.Path, {
             required: true
         });
+        
+        // Before restoring cache, check no-restore option
+        const noRestore = core.getBooleanInput(Inputs.NoRestore, { required: false });
+        if (noRestore) {
+            const keys = [primaryKey];
+            const cacheEntry = await cache.getCacheEntry(keys, cachePaths);
+            if (cacheEntry?.archiveLocation) {
+                utils.setCacheHitOutput(true);
+                return;
+            }
+        }
 
         const cacheKey = await cache.restoreCache(
             cachePaths,
