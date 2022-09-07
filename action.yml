@@ -17,6 +17,7 @@ inputs:
   no-restore:
     description: 'Do not restore the cache on hit, useful for jobs who merely build the cached dependency.'
     required: false
+    default: false
 outputs:
   cache-hit:
     description: 'A boolean value to indicate an exact match was found for the primary key'
